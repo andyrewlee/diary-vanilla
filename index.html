@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diary app</title>
+    <style>
+      .diary-entry {
+        padding: 10px;
+        background-color: #eee;
+        margin-bottom: 20px;
+      }
+      textarea, button {
+        width: 100%;
+      }
+      textarea {
+        height: 100px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="diaries"></div>
+    <div>
+      <input type="text" id="new-entry-title" />
+      <textarea id="new-entry-content"></textarea>
+      <div>
+        <button id="submit-button">Submit</button>
+      </div>
+    </div>
+    <script>
+      // Create diary entries
+      const entries = [
+        {
+          title: 'My day was awesome!',
+          content: 'The day was amazing because I had tacos.',
+        },
+        {
+          title: 'Same old day',
+          content: 'Same food, same job, same day...',
+        },
+      ];
+
+      function updateUI() {
+        // Create empty htmlStr
+        let htmlStr = '';
+
+        // Loop through and add UI to htmlStr
+        for (let i = 0; i < entries.length; i += 1) {
+          const currentEntry = entries[i];
+          const title = currentEntry.title;
+          const content = currentEntry.content;
+
+          const diaryEntry = `
+            <div class="diary-entry">
+              <h2>${title}</h2>
+              <p>${content}</p>
+            </div>
+          `;
+
+          htmlStr += diaryEntry;
+        }
+
+        // Replace innerHTML of #diaries with htmlStr
+        const diaries = document.getElementById('diaries');
+        diaries.innerHTML = htmlStr;
+      }
+
+      // Grab the button
+      const submitButton = document.getElementById('submit-button');
+
+      // Add a on click listener
+      submitButton.onclick = function() {
+        // Get content in textarea
+        const textarea = document.getElementById('new-entry-content');
+        const newEntryValue = textarea.value;
+
+        const titleInput = document.getElementById('new-entry-title')
+        const newTitleValue = titleInput.value;
+
+        // Push to diary entries array
+        entries.push({
+          title: newTitleValue,
+          content: newEntryValue,
+        })
+
+        // Empty textarea
+        textarea.value = '';
+        titleInput.value = '';
+
+        // Update UI
+        updateUI();
+      }
+
+      updateUI();
+    </script>
+  </body>
+</html>
